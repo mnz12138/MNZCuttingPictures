@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "MNZCuttingPictures"
-  s.version      = "0.1.3"
+  s.version      = "0.1.5"
   s.summary      = "传入一张图片，裁切成正方形的图片。"
   s.homepage     = "https://github.com/mnz12138/MNZCuttingPictures"
   s.license      = "MIT"
