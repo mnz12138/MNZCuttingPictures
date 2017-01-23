@@ -11,9 +11,7 @@
 @interface CuttingViewController () <UIScrollViewDelegate>
 
 @property(nonatomic, weak) UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UIToolbar *toolbar;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *scrollViewHeightCons;
+@property (strong, nonatomic) UIScrollView *scrollView;
 
 @end
 
@@ -24,19 +22,60 @@
     
     self.view.clipsToBounds = YES;
     self.view.backgroundColor = [UIColor blackColor];
+    CGSize size = self.view.bounds.size;
+    CGFloat scrollViewWH = size.width;
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, scrollViewWH, scrollViewWH)];
+    _scrollView.center = self.view.center;
+    _scrollView.clipsToBounds = NO;
+    _scrollView.maximumZoomScale = 2.0;
+    _scrollView.minimumZoomScale = 1.0;
     _scrollView.delegate = self;
     _scrollView.layer.borderWidth = 1;
     _scrollView.layer.borderColor = [UIColor greenColor].CGColor;
+    [self.view addSubview:_scrollView];
+    
+    // 工具栏按钮
+    CGFloat bottomViewH = 40;
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, size.height-bottomViewH, size.width, bottomViewH)];
+    bottomView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+    [self.view addSubview:bottomView];
+    
+    CGFloat btnW = 60;
+    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, btnW, bottomViewH)];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [cancelBtn addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:cancelBtn];
+    
+    UIButton *sureBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(bottomView.frame)-btnW, 0, btnW, bottomViewH)];
+    [sureBtn setTitle:@"确定" forState:UIControlStateNormal];
+    sureBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [sureBtn addTarget:self action:@selector(finishedAction) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:sureBtn];
+    
+    // 遮罩视图
+    UIView *topMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, CGRectGetMinY(_scrollView.frame))];
+    topMaskView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+    [self.view addSubview:topMaskView];
+    CGFloat bottomMaskViewY = CGRectGetMaxY(_scrollView.frame);
+    UIView *bottomMaskView = [[UIView alloc] initWithFrame:CGRectMake(0, bottomMaskViewY, size.width, CGRectGetMinY(bottomView.frame)-bottomMaskViewY)];
+    bottomMaskView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+    [self.view addSubview:bottomMaskView];
     
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = self.image;
     [_scrollView addSubview:imageView];
     self.imageView = imageView;
+    
+    [self beginLayoutSubviews];
+}
+- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationPortrait;
 }
 /**
  点击取消
  */
-- (IBAction)cancelAction {
+- (void)cancelAction {
     if ([self.delegate respondsToSelector:@selector(cuttingViewControllerDidCancel:)]) {
         [self.delegate cuttingViewControllerDidCancel:self];
     }else{
@@ -46,7 +85,7 @@
 /**
  点击完成
  */
-- (IBAction)finishedAction {
+- (void)finishedAction {
     if ([self.delegate respondsToSelector:@selector(cuttingViewController:didFinishImage:)]) {
         UIImage *image = [self imageFromView:self.imageView atFrame:CGRectMake(self.scrollView.contentOffset.x, self.scrollView.contentOffset.y, self.scrollView.bounds.size.width, self.scrollView.bounds.size.height) zoomScale:self.scrollView.zoomScale];
         [self.delegate cuttingViewController:self didFinishImage:image];
@@ -86,19 +125,11 @@
     UIGraphicsEndImageContext();
     return resultImage;
 }
-
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    
-    [self beginLayoutSubviews];
-}
-
 /**
  开始布局
  */
 - (void)beginLayoutSubviews {
     CGSize size = self.view.bounds.size;
-    _scrollViewHeightCons.constant = size.width;
     CGPoint origin = CGPointZero;
     CGSize imageSize = self.image.size;
     if (imageSize.width>size.width&&imageSize.height>size.width) {

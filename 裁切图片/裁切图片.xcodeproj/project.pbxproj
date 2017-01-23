@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		DE88C3051E35FB3000CF76DD /* CuttingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE88C3031E35FB3000CF76DD /* CuttingViewController.m */; };
-		DE88C3061E35FB3000CF76DD /* CuttingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE88C3041E35FB3000CF76DD /* CuttingViewController.xib */; };
 		DE9E85971E2482F800E34D9E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9E85961E2482F800E34D9E /* main.m */; };
 		DE9E859A1E2482F800E34D9E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9E85991E2482F800E34D9E /* AppDelegate.m */; };
 		DE9E859D1E2482F800E34D9E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE9E859C1E2482F800E34D9E /* ViewController.m */; };
@@ -20,7 +19,6 @@
 /* Begin PBXFileReference section */
 		DE88C3021E35FB3000CF76DD /* CuttingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CuttingViewController.h; sourceTree = "<group>"; };
 		DE88C3031E35FB3000CF76DD /* CuttingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CuttingViewController.m; sourceTree = "<group>"; };
-		DE88C3041E35FB3000CF76DD /* CuttingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CuttingViewController.xib; sourceTree = "<group>"; };
 		DE9E85921E2482F800E34D9E /* 裁切图片.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "裁切图片.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE9E85961E2482F800E34D9E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DE9E85981E2482F800E34D9E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -49,7 +47,6 @@
 			children = (
 				DE88C3021E35FB3000CF76DD /* CuttingViewController.h */,
 				DE88C3031E35FB3000CF76DD /* CuttingViewController.m */,
-				DE88C3041E35FB3000CF76DD /* CuttingViewController.xib */,
 			);
 			path = MNZCuttingPictures;
 			sourceTree = "<group>";
@@ -157,7 +154,6 @@
 				DE9E85A51E2482F800E34D9E /* LaunchScreen.storyboard in Resources */,
 				DE9E85A21E2482F800E34D9E /* Assets.xcassets in Resources */,
 				DE9E85A01E2482F800E34D9E /* Main.storyboard in Resources */,
-				DE88C3061E35FB3000CF76DD /* CuttingViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
