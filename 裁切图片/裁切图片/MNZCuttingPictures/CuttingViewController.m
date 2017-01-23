@@ -87,7 +87,10 @@
  */
 - (void)finishedAction {
     if ([self.delegate respondsToSelector:@selector(cuttingViewController:didFinishImage:)]) {
-        UIImage *image = [self imageFromView:self.imageView atFrame:CGRectMake(self.scrollView.contentOffset.x, self.scrollView.contentOffset.y, self.scrollView.bounds.size.width, self.scrollView.bounds.size.height) zoomScale:self.scrollView.zoomScale];
+        UIImage *image = nil;
+        if (self.image!=nil) {
+            image = [self imageFromView:self.imageView atFrame:CGRectMake(self.scrollView.contentOffset.x, self.scrollView.contentOffset.y, self.scrollView.bounds.size.width, self.scrollView.bounds.size.height) zoomScale:self.scrollView.zoomScale];
+        }
         [self.delegate cuttingViewController:self didFinishImage:image];
     }else{
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -129,6 +132,9 @@
  开始布局
  */
 - (void)beginLayoutSubviews {
+    if (self.image==nil) {
+        return;
+    }
     CGSize size = self.view.bounds.size;
     CGPoint origin = CGPointZero;
     CGSize imageSize = self.image.size;
