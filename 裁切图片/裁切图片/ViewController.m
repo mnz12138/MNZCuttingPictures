@@ -40,11 +40,14 @@
     CuttingViewController *cuttingVc = [[CuttingViewController alloc] init];
     cuttingVc.image = image;
     cuttingVc.delegate = self;
-    [picker dismissViewControllerAnimated:NO completion:nil];
-    [self presentViewController:cuttingVc animated:YES completion:nil];
+    [picker pushViewController:cuttingVc animated:YES];
 }
 
 #pragma mark - CuttingViewControllerDelegate
+- (void)cuttingViewControllerDidCancel:(CuttingViewController *)cuttingViewController {
+    [cuttingViewController.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)cuttingViewController:(CuttingViewController *)cuttingViewController didFinishImage:(UIImage *)image {
     self.imageView.image = image;
     [cuttingViewController dismissViewControllerAnimated:YES completion:nil];

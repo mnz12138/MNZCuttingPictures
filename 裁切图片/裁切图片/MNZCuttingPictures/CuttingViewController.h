@@ -20,9 +20,13 @@
 
 @interface CuttingViewController : UIViewController
 
-/**
- 需要裁切的图片
- */
+/**最小缩放比例 默认1.0*/
+@property (nonatomic, assign) CGFloat minimumZoomScale;
+/**最大缩放比例 默认2.0*/
+@property (nonatomic, assign) CGFloat maximumZoomScale;
+/**宽高比 默认1.0*/
+@property (nonatomic, assign) CGFloat ratio;
+/**需要裁切的图片*/
 @property(nonatomic, strong) UIImage *image;
 @property(nonatomic, weak) id<CuttingViewControllerDelegate> delegate;
 

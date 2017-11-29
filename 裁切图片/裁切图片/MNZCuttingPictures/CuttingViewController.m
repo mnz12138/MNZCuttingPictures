@@ -20,22 +20,39 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    if (self.maximumZoomScale<=0) {
+        self.maximumZoomScale = 2.0;
+    }
+    if (self.minimumZoomScale<=0) {
+        self.minimumZoomScale = 1.0;
+    }
+    if (self.ratio<=0) {
+        self.ratio = 1.0;
+    }
     self.view.clipsToBounds = YES;
     self.view.backgroundColor = [UIColor blackColor];
+    
+    [self addSubviews];
+    [self beginLayoutSubviews];
+}
+- (void)addSubviews {
+    // 工具栏按钮高度
+    CGFloat bottomViewH = 50;
     CGSize size = self.view.bounds.size;
-    CGFloat scrollViewWH = size.width;
+    CGFloat scrollViewWH = size.width/self.ratio;
+    if (scrollViewWH>=(size.height-2*bottomViewH)) {
+        scrollViewWH = size.height-2*bottomViewH;
+    }
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, scrollViewWH, scrollViewWH)];
     _scrollView.center = self.view.center;
     _scrollView.clipsToBounds = NO;
-    _scrollView.maximumZoomScale = 2.0;
-    _scrollView.minimumZoomScale = 1.0;
+    _scrollView.maximumZoomScale = self.maximumZoomScale;
+    _scrollView.minimumZoomScale = self.minimumZoomScale;
     _scrollView.delegate = self;
     _scrollView.layer.borderWidth = 1;
     _scrollView.layer.borderColor = [UIColor greenColor].CGColor;
     [self.view addSubview:_scrollView];
     
-    // 工具栏按钮
-    CGFloat bottomViewH = 40;
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, size.height-bottomViewH, size.width, bottomViewH)];
     bottomView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
     [self.view addSubview:bottomView];
@@ -66,11 +83,17 @@
     imageView.image = self.image;
     [_scrollView addSubview:imageView];
     self.imageView = imageView;
-    
-    [self beginLayoutSubviews];
 }
 - (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {
     return UIInterfaceOrientationPortrait;
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 /**
  点击取消
